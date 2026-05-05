@@ -19,9 +19,30 @@
 
         <!-- 2. VÍDEO VSL -->
         <section class="section text-center fade-in delay-1">
-            <div class="video-container" id="video-placeholder">
-                <!-- Iframe do Google Drive -->
-                <iframe src="https://drive.google.com/file/d/1Ye_663_Pv2m7JTjQUBalF9RCp3HAXCXx/preview" allow="autoplay; fullscreen" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
+            <div class="video-container" id="video-placeholder" style="background-color: #000;">
+                
+                <!-- THUMBNAIL CUSTOMIZADA (Botão sempre perfeito no centro, no celular ou no PC) -->
+                <div id="custom-thumb" class="pause-overlay" style="z-index: 25; background-image: url('https://img.youtube.com/vi/H5EEK-pJb9Y/maxresdefault.jpg'); background-size: cover; background-position: center; opacity: 1;" onclick="resumeVideo()">
+                    <!-- Ícone de Play gigante e centralizado -->
+                    <svg width="80" height="80" viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.6)); transition: transform 0.2s ease;">
+                        <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.01,34,0,34,0S12.21,.01,6.9,1.55C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19C12.21,47.99,34,48,34,48s21.79-0.01,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
+                        <path d="M45,24L27,14v20L45,24z" fill="#FFFFFF"></path>
+                    </svg>
+                </div>
+
+                <!-- OVERLAY DE PAUSE -->
+                <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
+                    <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 60%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">▶ Toque na tela para destravar o vídeo</p>
+                </div>
+                
+                <!-- Player do YouTube Blindado -->
+                <div style="position: absolute; top:0; left:0; width:100%; height:calc(50% - 35px); z-index:10; cursor: default;"></div>
+                <div style="position: absolute; bottom:0; left:0; width:100%; height:calc(50% - 35px); z-index:10; cursor: default;"></div>
+                <div style="position: absolute; top:calc(50% - 35px); left:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
+                <div style="position: absolute; top:calc(50% - 35px); right:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
+                
+                <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1&playsinline=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
             <div class="cta-container mt-3">
@@ -72,5 +93,59 @@
         </footer>
     </div>
 
+    <!-- Script de Autoplay e Controle Perfeito de Celular via YouTube -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Tenta dar o play automático 3 segundos após a tela carregar
+            setTimeout(function() {
+                try {
+                    player.playVideo();
+                } catch(e) {
+                    console.log("Autoplay do celular bloqueou, aguardando toque na tela.");
+                }
+            }, 3000);
+        }
+
+        function onPlayerStateChange(event) {
+            var pauseOverlay = document.getElementById('pause-overlay');
+            var customThumb = document.getElementById('custom-thumb');
+            
+            if (event.data === YT.PlayerState.PAUSED) {
+                // Se pausou, mostra a imagem de destrave
+                pauseOverlay.classList.remove('hidden');
+                
+                var img = document.getElementById('pause-img');
+                img.style.display = "block";
+                img.onerror = function() { this.style.display = 'none'; }; 
+            } else if (event.data === YT.PlayerState.PLAYING) {
+                // Se voltou a tocar, some com tudo da frente para o vídeo rodar limpo
+                pauseOverlay.classList.add('hidden');
+                if (customThumb) customThumb.style.display = 'none';
+            }
+        }
+
+        // Destrava o vídeo quando a pessoa toca no play ou no pause
+        function resumeVideo() {
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
+            
+            // Garantia extra de esconder as capas
+            document.getElementById('pause-overlay').classList.add('hidden');
+            var customThumb = document.getElementById('custom-thumb');
+            if (customThumb) customThumb.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
