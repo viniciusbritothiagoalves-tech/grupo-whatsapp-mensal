@@ -143,7 +143,11 @@
             if (player && typeof player.playVideo === 'function') {
                 player.playVideo();
             }
-            // As capas somem automaticamente quando a API avisar que está PLAYING (na função acima)
+            
+            // FALLBACK DE SEGURANÇA: Se você estiver testando o arquivo no seu computador (file://), 
+            // o YouTube bloqueia a API. Então removemos a capa forçadamente para você conseguir dar play manual.
+            document.getElementById('pause-overlay').classList.add('hidden');
+            document.getElementById('start-overlay').classList.add('hidden');
         }
     </script>
 </body>
