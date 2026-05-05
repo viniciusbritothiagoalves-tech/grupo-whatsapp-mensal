@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #F9FBF9; /* Softest green-tinted white for maximum clean feel */
-    --text-main: #2A3B32; /* Deep readable green */
+    --bg-color: #F9FBF9;
+    --text-main: #2A3B32;
     --text-muted: #5B6D62;
-    --accent-color: #4A8C64; /* Calm and clear green */
-    --accent-dark: #37704E;
+    --accent-color: #FF0000; /* Vermelho YouTube */
+    --accent-dark: #CC0000;
     --box-bg: #FFFFFF;
     --green-soft: #F4FBF6;
     --green-text: #2D6A4F;
@@ -19,6 +19,9 @@
 
 body {
     background-color: var(--bg-color);
+    /* Textura suave de fundo pontilhada */
+    background-image: radial-gradient(#d3dbd6 1px, transparent 1px);
+    background-size: 20px 20px;
     color: var(--text-main);
     line-height: 1.5;
     font-size: 19px; 
@@ -28,11 +31,14 @@ body {
 .container {
     max-width: 600px; 
     margin: 0 auto;
-    padding: 2rem 1.5rem; 
+    padding: 1.5rem 1.2rem; /* Espaçamento mais compacto */
+    background-color: #FFFFFF;
+    box-shadow: 0 0 40px rgba(0,0,0,0.03);
+    min-height: 100vh;
 }
 
 .section {
-    margin-bottom: 3.5rem; 
+    margin-bottom: 2.5rem; /* Menos espaço em branco entre as seções */
 }
 
 .text-center {
@@ -189,13 +195,13 @@ body {
     display: inline-block;
     width: 100%;
     background-color: var(--accent-color);
-    color: white;
+    color: #FFFFFF !important;
     text-decoration: none;
     padding: 1.3rem 1rem;
     font-size: 1.35rem;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(74, 140, 100, 0.25);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
 }
@@ -203,11 +209,25 @@ body {
 .cta-button:hover {
     background-color: var(--accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 140, 100, 0.35);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
 }
 
 .cta-button:active {
     transform: translateY(0);
+}
+
+/* Animação pulsante */
+.heartbeat-btn {
+    animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); }
+    15% { transform: scale(1.03); box-shadow: 0 8px 20px rgba(255, 0, 0, 0.45); }
+    30% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); }
+    45% { transform: scale(1.03); box-shadow: 0 8px 20px rgba(255, 0, 0, 0.45); }
+    60% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); }
 }
 
 .subtext {
@@ -216,7 +236,18 @@ body {
     margin-top: 1rem;
 }
 
-/* Animations */
+/* Animations - Scroll */
+.scroll-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .fade-in {
     opacity: 0;
     transform: translateY(15px);

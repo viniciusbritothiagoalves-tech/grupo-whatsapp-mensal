@@ -12,9 +12,9 @@
 <body>
     <div class="container">
         <!-- 1. HEADLINE -->
-        <header class="section text-center fade-in">
-            <h1 class="main-title">Tenha mais paz, clareza e ânimo para enfrentar cada dia.</h1>
-            <p class="subtitle mt-2">Assista ao vídeo abaixo (é curto e muito importante):</p>
+        <header class="section text-center scroll-fade">
+            <h1 class="main-title">🕊️ Tenha mais paz, clareza e ânimo para enfrentar cada dia.</h1>
+            <p class="subtitle mt-2">Assista ao vídeo abaixo com atenção (é curto e muito importante):</p>
         </header>
 
         <!-- 2. VÍDEO VSL -->
@@ -32,8 +32,7 @@
 
                 <!-- OVERLAY DE PAUSE -->
                 <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
-                    <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 60%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">▶ Toque na tela para destravar o vídeo</p>
+                    <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 80%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.8);">
                 </div>
                 
                 <!-- Player do YouTube Blindado -->
@@ -45,46 +44,46 @@
                 <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1&playsinline=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
-            <div class="cta-container mt-3">
+            <div class="cta-container mt-3 scroll-fade">
                 <!-- Link de checkout -->
-                <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero garantir minha vaga agora</a>
-                <p class="subtext">Acesso imediato e ambiente 100% seguro.</p>
+                <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero entrar no Grupo Vip do WhatsApp 📲</a>
+                <p class="subtext">Acesso imediato ao grupo. Pagamento seguro.</p>
             </div>
         </section>
 
         <!-- 3. REFORÇO DOS PONTOS CHAVES (PÓS-VÍDEO) -->
-        <section class="section fade-in delay-2">
-            <h2 class="section-title text-center">Como isso vai te ajudar:</h2>
+        <section class="section scroll-fade">
+            <h2 class="section-title text-center">Como o Grupo vai transformar sua rotina:</h2>
             <div class="benefits-list">
                 <div class="benefit-item">
-                    <span class="check-icon">✓</span>
-                    <p><strong>Mensagens que fazem a diferença:</strong> Áudios e imagens acolhedoras para trazer paz logo de manhã.</p>
+                    <span class="check-icon">🎧</span>
+                    <p><strong>Mensagens em Áudio:</strong> Palavras curtas e poderosas para trazer paz e direção ao seu coração logo de manhã.</p>
                 </div>
                 <div class="benefit-item">
-                    <span class="check-icon">✓</span>
-                    <p><strong>Clareza e força:</strong> Palavras simples de apoio para aliviar a mente e confortar o coração.</p>
+                    <span class="check-icon">🌅</span>
+                    <p><strong>Imagens Exclusivas:</strong> Reflexões visuais de bom dia para renovar sua fé, esperança e força interior.</p>
                 </div>
                 <div class="benefit-item">
-                    <span class="check-icon">✓</span>
-                    <p><strong>Companhia e cuidado:</strong> Um ombro amigo, sem complicação, direto no seu celular.</p>
+                    <span class="check-icon">🤝</span>
+                    <p><strong>Companhia e Acolhimento:</strong> Uma verdadeira comunidade no WhatsApp. Você nunca mais se sentirá sozinha na sua caminhada.</p>
                 </div>
             </div>
         </section>
 
         <!-- 4. PREÇO E ESCASSEZ -->
-        <section class="section text-center fade-in delay-3">
+        <section class="section text-center scroll-fade">
             <div class="price-box">
-                <p class="price-anchor">Um apoio que custa menos que um café por semana:</p>
+                <p class="price-anchor">Um acompanhamento especial que custa menos que um pão de queijo por semana:</p>
                 <p class="price">Apenas R$ 14,90 ao mês.</p>
-                <p class="scarcity mt-3">As vagas são limitadas para podermos manter a qualidade e o cuidado com cada participante do grupo.</p>
+                <p class="scarcity mt-3">⚠️ <strong>Atenção:</strong> As vagas para o grupo são estritamente limitadas para mantermos a qualidade do acolhimento e o cuidado com cada membro.</p>
             </div>
         </section>
 
         <!-- 5. CTA FINAL -->
-        <section class="section text-center fade-in delay-3">
-            <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero fazer minha inscrição</a>
+        <section class="section text-center scroll-fade" style="padding-bottom: 3rem;">
+            <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button heartbeat-btn">Sim! Quero entrar no Grupo do WhatsApp</a>
             <div class="secure-checkout mt-2">
-                <p style="font-size: 0.95rem; color: var(--text-muted);">🔒 Pagamento processado de forma 100% segura.</p>
+                <p style="font-size: 0.95rem; color: var(--text-muted);">🔒 Vaga garantida e pagamento 100% seguro.</p>
             </div>
         </section>
         
@@ -146,6 +145,21 @@
             var customThumb = document.getElementById('custom-thumb');
             if (customThumb) customThumb.style.display = 'none';
         }
+
+        // Script de Animação de Scroll (Elementos aparecem suavemente)
+        document.addEventListener("DOMContentLoaded", function() {
+            var observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-fade').forEach((element) => {
+                observer.observe(element);
+            });
+        });
     </script>
 </body>
 </html>
