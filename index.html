@@ -19,7 +19,23 @@
 
         <!-- 2. VÍDEO VSL -->
         <section class="section text-center fade-in delay-1">
-            <div class="video-container" id="video-placeholder">
+            <div class="video-container" id="video-placeholder" style="background-color: #000;">
+                
+                <!-- OVERLAY INICIAL (Esconde o YouTube antes do Play) -->
+                <div id="start-overlay" class="pause-overlay" style="z-index: 30; background-color: #000;" onclick="resumeVideo()">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.9; filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5));">
+                        <path d="M8 5V19L19 12L8 5Z" />
+                    </svg>
+                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">Toque para começar</p>
+                </div>
+
+                <!-- OVERLAY DE PAUSE (Aparece se o vídeo for pausado) -->
+                <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
+                    <!-- Você pode trocar 'imagem-pause.jpg' pelo nome da sua imagem -->
+                    <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 60%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">▶ Toque na tela para destravar o vídeo</p>
+                </div>
+                
                 <!-- Player do YouTube Blindado (Impede sair da página) -->
                 <!-- Bloqueios invisíveis 4-WALL (Apenas um pequeno furo no centro para o botão Play) -->
                 <div style="position: absolute; top:0; left:0; width:100%; height:calc(50% - 35px); z-index:10; cursor: default;"></div>
@@ -78,14 +94,15 @@
         </footer>
     </div>
 
-    <!-- Script de Autoplay em 3s do YouTube -->
+    <!-- Script de Autoplay e Controle de Pause do YouTube -->
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
                 events: {
-                    'onReady': onPlayerReady
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
             });
         }
@@ -99,6 +116,34 @@
                     console.log("Autoplay retido pelas políticas do navegador.");
                 }
             }, 3000);
+        }
+
+        // Função que escuta quando o vídeo é pausado ou volta a tocar
+        function onPlayerStateChange(event) {
+            var pauseOverlay = document.getElementById('pause-overlay');
+            var startOverlay = document.getElementById('start-overlay');
+            
+            if (event.data === YT.PlayerState.PAUSED) {
+                // Se pausou, mostra a imagem de destrave
+                pauseOverlay.classList.remove('hidden');
+                
+                // Exibe a imagem de pause apenas se existir para não quebrar o layout
+                var img = document.getElementById('pause-img');
+                img.style.display = "block";
+                img.onerror = function() { this.style.display = 'none'; }; 
+            } else if (event.data === YT.PlayerState.PLAYING) {
+                // Se voltou a tocar, esconde todas as capas
+                pauseOverlay.classList.add('hidden');
+                startOverlay.classList.add('hidden');
+            }
+        }
+
+        // Destrava e volta a tocar o vídeo quando a pessoa clica na imagem ou na capa inicial
+        function resumeVideo() {
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
+            // As capas somem automaticamente quando a API avisar que está PLAYING (na função acima)
         }
     </script>
 </body>

@@ -81,6 +81,28 @@ body {
     border: 0;
 }
 
+/* Overlay de Pause Customizado */
+.pause-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fundo escuro */
+    z-index: 20; /* Fica acima da blindagem invisível */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.pause-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .video-mockup {
     position: absolute;
     top: 0;
