@@ -21,9 +21,6 @@
         <section class="section text-center fade-in delay-1">
             <div class="video-container" id="video-placeholder" style="background-color: #000;">
                 
-                <!-- BLOQUEADOR DO TÍTULO (Cobre apenas o topo para esconder título/canal do YouTube antes do play) -->
-                <div id="title-blocker" style="position: absolute; top: 0; left: 0; width: 100%; height: 75px; background-color: #000; z-index: 15;"></div>
-
                 <!-- OVERLAY DE PAUSE (Aparece se o vídeo for pausado) -->
                 <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
                     <!-- Você pode trocar 'imagem-pause.jpg' pelo nome da sua imagem -->
@@ -116,7 +113,6 @@
         // Função que escuta quando o vídeo é pausado ou volta a tocar
         function onPlayerStateChange(event) {
             var pauseOverlay = document.getElementById('pause-overlay');
-            var titleBlocker = document.getElementById('title-blocker');
             
             if (event.data === YT.PlayerState.PAUSED) {
                 // Se pausou, mostra a imagem de destrave
@@ -127,9 +123,8 @@
                 img.style.display = "block";
                 img.onerror = function() { this.style.display = 'none'; }; 
             } else if (event.data === YT.PlayerState.PLAYING) {
-                // Se voltou a tocar, esconde o pause-overlay e o bloqueador de título
+                // Se voltou a tocar, esconde o pause-overlay
                 pauseOverlay.classList.add('hidden');
-                if (titleBlocker) titleBlocker.style.display = 'none';
             }
         }
 
