@@ -30,7 +30,7 @@
                 <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
-            <div class="cta-container mt-3">
+            <div class="cta-container mt-3 hidden-until-video" style="display: none;">
                 <!-- Link de checkout -->
                 <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero garantir minha vaga agora</a>
                 <p class="subtext">Acesso imediato e ambiente 100% seguro.</p>
@@ -38,7 +38,7 @@
         </section>
 
         <!-- 3. REFORÇO DOS PONTOS CHAVES (PÓS-VÍDEO) -->
-        <section class="section fade-in delay-2">
+        <section class="section fade-in delay-2 hidden-until-video" style="display: none;">
             <h2 class="section-title text-center">Como isso vai te ajudar:</h2>
             <div class="benefits-list">
                 <div class="benefit-item">
@@ -57,7 +57,7 @@
         </section>
 
         <!-- 4. PREÇO E ESCASSEZ -->
-        <section class="section text-center fade-in delay-3">
+        <section class="section text-center fade-in delay-3 hidden-until-video" style="display: none;">
             <div class="price-box">
                 <p class="price-anchor">Um apoio que custa menos que um café por semana:</p>
                 <p class="price">Apenas R$ 14,90 ao mês.</p>
@@ -66,14 +66,13 @@
         </section>
 
         <!-- 5. CTA FINAL -->
-        <section class="section text-center fade-in delay-3">
+        <section class="section text-center fade-in delay-3 hidden-until-video" style="display: none;">
             <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero fazer minha inscrição</a>
             <div class="secure-checkout mt-2">
                 <p style="font-size: 0.95rem; color: var(--text-muted);">🔒 Pagamento processado de forma 100% segura.</p>
             </div>
         </section>
-        
-        <footer class="text-center" style="margin-top: 1rem; color: #6A7F73; font-size: 1rem; padding-bottom: 2rem;">
+        <footer class="text-center hidden-until-video" style="margin-top: 1rem; color: #6A7F73; font-size: 1rem; padding-bottom: 2rem; display: none;">
             <p>Simples, seguro e discreto.</p>
         </footer>
     </div>
@@ -82,6 +81,8 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         var player;
+        var contentRevealed = false;
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
                 events: {
@@ -99,6 +100,28 @@
                     console.log("Autoplay retido pelas políticas do navegador.");
                 }
             }, 3000);
+
+            // Verifica a cada 1 segundo se o usuário já assistiu 3 minutos (180 segundos)
+            setInterval(checkVideoTime, 1000);
+        }
+
+        function checkVideoTime() {
+            if (contentRevealed) return;
+            
+            if (player && player.getCurrentTime) {
+                var time = player.getCurrentTime();
+                if (time >= 180) { // 3 minutos = 180 segundos
+                    revealContent();
+                }
+            }
+        }
+
+        function revealContent() {
+            contentRevealed = true;
+            var elements = document.querySelectorAll('.hidden-until-video');
+            elements.forEach(function(el) {
+                el.style.display = 'block';
+            });
         }
     </script>
 </body>
