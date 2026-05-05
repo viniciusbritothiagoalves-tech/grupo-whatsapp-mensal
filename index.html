@@ -21,13 +21,8 @@
         <section class="section text-center fade-in delay-1">
             <div class="video-container" id="video-placeholder" style="background-color: #000;">
                 
-                <!-- OVERLAY INICIAL (Esconde o YouTube antes do Play) -->
-                <div id="start-overlay" class="pause-overlay" style="z-index: 30; background-color: #000; pointer-events: none;">
-                    <svg width="80" height="80" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.9; filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5));">
-                        <path d="M8 5V19L19 12L8 5Z" />
-                    </svg>
-                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">Toque para começar</p>
-                </div>
+                <!-- BLOQUEADOR DO TÍTULO (Cobre apenas o topo para esconder título/canal do YouTube antes do play) -->
+                <div id="title-blocker" style="position: absolute; top: 0; left: 0; width: 100%; height: 75px; background-color: #000; z-index: 15;"></div>
 
                 <!-- OVERLAY DE PAUSE (Aparece se o vídeo for pausado) -->
                 <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
@@ -43,7 +38,7 @@
                 <div style="position: absolute; top:calc(50% - 35px); left:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
                 <div style="position: absolute; top:calc(50% - 35px); right:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
                 
-                <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
+                <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
             <div class="cta-container mt-3">
@@ -121,7 +116,7 @@
         // Função que escuta quando o vídeo é pausado ou volta a tocar
         function onPlayerStateChange(event) {
             var pauseOverlay = document.getElementById('pause-overlay');
-            var startOverlay = document.getElementById('start-overlay');
+            var titleBlocker = document.getElementById('title-blocker');
             
             if (event.data === YT.PlayerState.PAUSED) {
                 // Se pausou, mostra a imagem de destrave
@@ -132,22 +127,18 @@
                 img.style.display = "block";
                 img.onerror = function() { this.style.display = 'none'; }; 
             } else if (event.data === YT.PlayerState.PLAYING) {
-                // Se voltou a tocar, esconde todas as capas
+                // Se voltou a tocar, esconde o pause-overlay e o bloqueador de título
                 pauseOverlay.classList.add('hidden');
-                startOverlay.classList.add('hidden');
+                if (titleBlocker) titleBlocker.style.display = 'none';
             }
         }
 
-        // Destrava e volta a tocar o vídeo quando a pessoa clica na imagem ou na capa inicial
+        // Destrava e volta a tocar o vídeo quando a pessoa clica na imagem
         function resumeVideo() {
             if (player && typeof player.playVideo === 'function') {
                 player.playVideo();
             }
-            
-            // FALLBACK DE SEGURANÇA: Se você estiver testando o arquivo no seu computador (file://), 
-            // o YouTube bloqueia a API. Então removemos a capa forçadamente para você conseguir dar play manual.
             document.getElementById('pause-overlay').classList.add('hidden');
-            document.getElementById('start-overlay').classList.add('hidden');
         }
     </script>
 </body>
