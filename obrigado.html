@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Inscrição Confirmada!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="oferta.css">
+    
+    <style>
+        /* Estilos específicos para a página de obrigado */
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 0.5rem;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        .alert-box {
+            background-color: #FFF9E6;
+            border: 1px solid #FFE082;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            color: #856404;
+            text-align: center;
+        }
+
+        .alert-box p {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        /* Botão específico do WhatsApp */
+        .whatsapp-btn {
+            background-color: #25D366 !important;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3) !important;
+            color: #FFFFFF !important;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #1DA851 !important;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4) !important;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding-top: 2rem; padding-bottom: 2rem;">
+        
+        <!-- Cabeçalho de Sucesso -->
+        <header class="section text-center" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+            <div class="success-icon">✅</div>
+            <h1 class="main-title" style="color: #2D6A4F;">Inscrição Aprovada!</h1>
+            <p class="subtitle mt-2" style="font-size: 1.25rem;">Sua vaga foi garantida com sucesso.</p>
+        </header>
+
+        <!-- Instruções e Alerta -->
+        <section class="section text-center fade-in delay-1" style="border-bottom: none; padding-top: 1rem;">
+            <div class="alert-box">
+                <p>⚠️ <strong>ATENÇÃO: Falta apenas 1 passo!</strong></p>
+                <p style="margin-top: 0.8rem; font-weight: 400; line-height: 1.5;">Para começar a receber os áudios e mensagens diárias de paz e encorajamento, você precisa <strong>entrar no grupo oficial do WhatsApp agora mesmo.</strong></p>
+            </div>
+            
+            <div class="cta-container mt-3">
+                <a href="https://chat.whatsapp.com/CcZoBQVULEvCbb7ljufVE2" class="cta-button heartbeat-btn whatsapp-btn">
+                    Acessar o Grupo Agora 📲
+                </a>
+                <p class="subtext">Clique no botão verde para ser direcionado.</p>
+            </div>
+        </section>
+
+        <!-- Rodapé simples -->
+        <footer class="text-center fade-in delay-2" style="margin-top: 2rem; color: var(--text-muted); font-size: 1rem;">
+            <p>Seja muito bem-vinda à nossa comunidade! 🕊️</p>
+        </footer>
+    </div>
+</body>
+</html>
