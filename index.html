@@ -21,7 +21,7 @@
         <section class="section text-center fade-in delay-1">
             <div class="video-container" id="video-placeholder" style="background-color: #000;">
                 
-                <!-- THUMBNAIL CUSTOMIZADA (Esconde todo o layout do YouTube antes do play, mostrando apenas a imagem) -->
+                <!-- THUMBNAIL CUSTOMIZADA (Esconde o player antes do play, mostrando apenas a imagem) -->
                 <div id="custom-thumb" class="pause-overlay" style="z-index: 25; background-image: url('https://img.youtube.com/vi/H5EEK-pJb9Y/maxresdefault.jpg'); background-size: cover; background-position: center; opacity: 1;" onclick="resumeVideo()">
                     <!-- Ícone de Play vermelho -->
                     <svg width="68" height="48" viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5)); transition: transform 0.2s ease;">
@@ -32,19 +32,12 @@
 
                 <!-- OVERLAY DE PAUSE (Aparece se o vídeo for pausado) -->
                 <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
-                    <!-- Você pode trocar 'imagem-pause.jpg' pelo nome da sua imagem -->
                     <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 60%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
                     <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">▶ Toque na tela para destravar o vídeo</p>
                 </div>
                 
-                <!-- Player do YouTube Blindado (Impede sair da página) -->
-                <!-- Bloqueios invisíveis 4-WALL (Apenas um pequeno furo no centro para o botão Play) -->
-                <div style="position: absolute; top:0; left:0; width:100%; height:calc(50% - 35px); z-index:10; cursor: default;"></div>
-                <div style="position: absolute; bottom:0; left:0; width:100%; height:calc(50% - 35px); z-index:10; cursor: default;"></div>
-                <div style="position: absolute; top:calc(50% - 35px); left:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
-                <div style="position: absolute; top:calc(50% - 35px); right:0; width:calc(50% - 45px); height:70px; z-index:10; cursor: default;"></div>
-                
-                <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1&playsinline=1" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
+                <!-- PLAYER NATIVO LIMPO (Sem logo, sem controles nativos) -->
+                <video id="native-player" src="vsl.mp4" playsinline preload="metadata" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; border:0; cursor: pointer;"></video>
             </div>
             
             <div class="cta-container mt-3">
@@ -95,59 +88,55 @@
         </footer>
     </div>
 
-    <!-- Script de Autoplay e Controle de Pause do YouTube -->
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <!-- Script de Controle do Vídeo Nativo -->
     <script>
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
+        var video = document.getElementById('native-player');
+        var customThumb = document.getElementById('custom-thumb');
+        var pauseOverlay = document.getElementById('pause-overlay');
 
-        function onPlayerReady(event) {
-            // Conta 3 segundos a partir de quando o player do YouTube está pronto na tela
-            setTimeout(function() {
-                try {
-                    player.playVideo();
-                } catch(e) {
+        // Tenta dar Play Automático após 3 segundos
+        setTimeout(function() {
+            var playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    // Play automático funcionou
+                    customThumb.style.display = 'none';
+                    pauseOverlay.classList.add('hidden');
+                }).catch(function(error) {
+                    // Navegador bloqueou, aguardando clique manual do usuário na capa
                     console.log("Autoplay retido pelas políticas do navegador.");
-                }
-            }, 3000);
+                });
+            }
+        }, 3000);
+
+        // Destrava e toca o vídeo quando a pessoa clica nas capas (custom-thumb ou pause-overlay)
+        function resumeVideo() {
+            video.play();
+            customThumb.style.display = 'none';
+            pauseOverlay.classList.add('hidden');
         }
 
-        // Função que escuta quando o vídeo é pausado ou volta a tocar
-        function onPlayerStateChange(event) {
-            var pauseOverlay = document.getElementById('pause-overlay');
-            var customThumb = document.getElementById('custom-thumb');
-            
-            if (event.data === YT.PlayerState.PAUSED) {
-                // Se pausou, mostra a imagem de destrave
+        // Permite pausar o vídeo clicando no meio dele (já que ele não tem a barra de controles)
+        video.addEventListener('click', function() {
+            if (!video.paused) {
+                video.pause();
                 pauseOverlay.classList.remove('hidden');
                 
-                // Exibe a imagem de pause apenas se existir para não quebrar o layout
+                // Exibe a imagem de pause personalizada (se existir)
                 var img = document.getElementById('pause-img');
                 img.style.display = "block";
                 img.onerror = function() { this.style.display = 'none'; }; 
-            } else if (event.data === YT.PlayerState.PLAYING) {
-                // Se voltou a tocar, esconde tudo
-                pauseOverlay.classList.add('hidden');
-                if (customThumb) customThumb.style.display = 'none';
             }
-        }
+        });
 
-        // Destrava e volta a tocar o vídeo quando a pessoa clica na imagem
-        function resumeVideo() {
-            if (player && typeof player.playVideo === 'function') {
-                player.playVideo();
-            }
-            document.getElementById('pause-overlay').classList.add('hidden');
-            var customThumb = document.getElementById('custom-thumb');
-            if (customThumb) customThumb.style.display = 'none';
-        }
+        // Quando o vídeo acabar, volta a mostrar a capa inicial
+        video.addEventListener('ended', function() {
+            customThumb.style.display = 'flex';
+            pauseOverlay.classList.add('hidden');
+            
+            // Retorna ao início do vídeo para a pessoa poder reassistir
+            video.currentTime = 0; 
+        });
     </script>
 </body>
 </html>
