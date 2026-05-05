@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sua Paz Diária</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="oferta.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 1. HEADLINE -->
+        <header class="section text-center fade-in">
+            <h1 class="main-title">Tenha mais paz, clareza e ânimo para enfrentar cada dia.</h1>
+            <p class="subtitle mt-2">Assista ao vídeo abaixo (é curto e muito importante):</p>
+        </header>
+
+        <!-- 2. VÍDEO VSL -->
+        <section class="section text-center fade-in delay-1">
+            <div class="video-container" id="video-placeholder">
+                <!-- O vídeo local -->
+                <video id="vsl-player" controls controlsList="nodownload" playsinline preload="metadata">
+                    <source src="vsl.mp4" type="video/mp4">
+                    Seu navegador não suporta a exibição deste vídeo.
+                </video>
+            </div>
+            
+            <div class="cta-container mt-3">
+                <!-- Link de checkout -->
+                <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero garantir minha vaga agora</a>
+                <p class="subtext">Acesso imediato e ambiente 100% seguro.</p>
+            </div>
+        </section>
+
+        <!-- 3. REFORÇO DOS PONTOS CHAVES (PÓS-VÍDEO) -->
+        <section class="section fade-in delay-2">
+            <h2 class="section-title text-center">Como isso vai te ajudar:</h2>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <span class="check-icon">✓</span>
+                    <p><strong>Mensagens que fazem a diferença:</strong> Áudios e imagens acolhedoras para trazer paz logo de manhã.</p>
+                </div>
+                <div class="benefit-item">
+                    <span class="check-icon">✓</span>
+                    <p><strong>Clareza e força:</strong> Palavras simples de apoio para aliviar a mente e confortar o coração.</p>
+                </div>
+                <div class="benefit-item">
+                    <span class="check-icon">✓</span>
+                    <p><strong>Companhia e cuidado:</strong> Um ombro amigo, sem complicação, direto no seu celular.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PREÇO E ESCASSEZ -->
+        <section class="section text-center fade-in delay-3">
+            <div class="price-box">
+                <p class="price-anchor">Um apoio que custa menos que um café por semana:</p>
+                <p class="price">Apenas R$ 14,90 ao mês.</p>
+                <p class="scarcity mt-3">As vagas são limitadas para podermos manter a qualidade e o cuidado com cada participante do grupo.</p>
+            </div>
+        </section>
+
+        <!-- 5. CTA FINAL -->
+        <section class="section text-center fade-in delay-3">
+            <a href="https://pay.cakto.com.br/3a49n9x_842808" class="cta-button">Quero fazer minha inscrição</a>
+            <div class="secure-checkout mt-2">
+                <p style="font-size: 0.95rem; color: var(--text-muted);">🔒 Pagamento processado de forma 100% segura.</p>
+            </div>
+        </section>
+        
+        <footer class="text-center" style="margin-top: 1rem; color: #6A7F73; font-size: 1rem; padding-bottom: 2rem;">
+            <p>Simples, seguro e discreto.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                var video = document.getElementById("vsl-player");
+                if (video) {
+                    // Tenta iniciar a reprodução automaticamente após 3 segundos
+                    var playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.catch(function(error) {
+                            // Muitos navegadores bloqueiam o autoplay com áudio se a pessoa não tiver clicado ou tocado na tela antes.
+                            // Se isso acontecer, o play não será forçado (para não dar erro) e a pessoa poderá dar o play no botão.
+                            console.log("Autoplay retido pelas políticas do navegador.");
+                        });
+                    }
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
