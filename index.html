@@ -19,25 +19,9 @@
 
         <!-- 2. VÍDEO VSL -->
         <section class="section text-center fade-in delay-1">
-            <div class="video-container" id="video-placeholder" style="background-color: #000;">
-                
-                <!-- THUMBNAIL CUSTOMIZADA (Esconde o player antes do play, mostrando apenas a imagem) -->
-                <div id="custom-thumb" class="pause-overlay" style="z-index: 25; background-image: url('https://img.youtube.com/vi/H5EEK-pJb9Y/maxresdefault.jpg'); background-size: cover; background-position: center; opacity: 1;" onclick="resumeVideo()">
-                    <!-- Ícone de Play vermelho -->
-                    <svg width="68" height="48" viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.5)); transition: transform 0.2s ease;">
-                        <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.01,34,0,34,0S12.21,.01,6.9,1.55C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19C12.21,47.99,34,48,34,48s21.79-0.01,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#FF0000"></path>
-                        <path d="M45,24L27,14v20L45,24z" fill="#FFFFFF"></path>
-                    </svg>
-                </div>
-
-                <!-- OVERLAY DE PAUSE (Aparece se o vídeo for pausado) -->
-                <div id="pause-overlay" class="pause-overlay hidden" style="z-index: 20;" onclick="resumeVideo()">
-                    <img id="pause-img" src="imagem-pause.jpg" alt="Vídeo Pausado" style="display:none; max-width: 60%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-                    <p style="color: white; font-weight: bold; margin-top: 15px; font-size: 1.3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.8);">▶ Toque na tela para destravar o vídeo</p>
-                </div>
-                
-                <!-- PLAYER NATIVO LIMPO (Sem logo, sem controles nativos) -->
-                <video id="native-player" src="vsl.mp4" playsinline preload="metadata" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; border:0; cursor: pointer;"></video>
+            <div class="video-container" id="video-placeholder">
+                <!-- Iframe do Google Drive -->
+                <iframe src="https://drive.google.com/file/d/1Ye_663_Pv2m7JTjQUBalF9RCp3HAXCXx/preview" allow="autoplay; fullscreen" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
             <div class="cta-container mt-3">
@@ -88,55 +72,5 @@
         </footer>
     </div>
 
-    <!-- Script de Controle do Vídeo Nativo -->
-    <script>
-        var video = document.getElementById('native-player');
-        var customThumb = document.getElementById('custom-thumb');
-        var pauseOverlay = document.getElementById('pause-overlay');
-
-        // Tenta dar Play Automático após 3 segundos
-        setTimeout(function() {
-            var playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    // Play automático funcionou
-                    customThumb.style.display = 'none';
-                    pauseOverlay.classList.add('hidden');
-                }).catch(function(error) {
-                    // Navegador bloqueou, aguardando clique manual do usuário na capa
-                    console.log("Autoplay retido pelas políticas do navegador.");
-                });
-            }
-        }, 3000);
-
-        // Destrava e toca o vídeo quando a pessoa clica nas capas (custom-thumb ou pause-overlay)
-        function resumeVideo() {
-            video.play();
-            customThumb.style.display = 'none';
-            pauseOverlay.classList.add('hidden');
-        }
-
-        // Permite pausar o vídeo clicando no meio dele (já que ele não tem a barra de controles)
-        video.addEventListener('click', function() {
-            if (!video.paused) {
-                video.pause();
-                pauseOverlay.classList.remove('hidden');
-                
-                // Exibe a imagem de pause personalizada (se existir)
-                var img = document.getElementById('pause-img');
-                img.style.display = "block";
-                img.onerror = function() { this.style.display = 'none'; }; 
-            }
-        });
-
-        // Quando o vídeo acabar, volta a mostrar a capa inicial
-        video.addEventListener('ended', function() {
-            customThumb.style.display = 'flex';
-            pauseOverlay.classList.add('hidden');
-            
-            // Retorna ao início do vídeo para a pessoa poder reassistir
-            video.currentTime = 0; 
-        });
-    </script>
 </body>
 </html>
