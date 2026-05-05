@@ -44,7 +44,7 @@
                 <iframe id="youtube-player" src="https://www.youtube.com/embed/H5EEK-pJb9Y?enablejsapi=1&rel=0&modestbranding=1&fs=0&controls=0&disablekb=1&playsinline=1&cb=2026" frameborder="0" allow="autoplay; picture-in-picture" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"></iframe>
             </div>
             
-            <div class="cta-container mt-3 scroll-fade">
+            <div class="cta-container mt-3 scroll-fade hidden-until-video" style="display: none;">
                 <!-- Link de checkout -->
                 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem; color: var(--text-main);">Garanta sua vaga por apenas 14,90/mês</p>
                 <a href="https://pay.cakto.com.br/9efyr44_864281" class="cta-button heartbeat-btn">Entrar no Grupo WhatsApp 📲</a>
@@ -53,7 +53,7 @@
         </section>
 
         <!-- 3. PARA QUEM É E NÃO É (Afastar curiosos) -->
-        <section class="section scroll-fade">
+        <section class="section scroll-fade hidden-until-video" style="display: none;">
             <h2 class="section-title text-center">Atenção: Este grupo não é para qualquer pessoa.</h2>
             <div class="benefits-list">
                 <div class="benefit-item" style="border-left: 4px solid #E74C3C;">
@@ -68,7 +68,7 @@
         </section>
 
         <!-- 3.5. O SEU FUTURO (Ponto B) -->
-        <section class="section scroll-fade">
+        <section class="section scroll-fade hidden-until-video" style="display: none;">
             <h2 class="section-title text-center">Imagine como será acordar todos os dias com uma direção...</h2>
             <div class="benefits-list">
                 <div class="benefit-item">
@@ -83,7 +83,7 @@
         </section>
 
         <!-- 4. PREÇO E ESCASSEZ COM DUPLA ANCORAGEM -->
-        <section class="section text-center scroll-fade">
+        <section class="section text-center scroll-fade hidden-until-video" style="display: none;">
             <div class="price-box">
                 <p class="price-anchor" style="margin-bottom: 0.5rem; font-size: 1rem; color: var(--text-muted);">Ter um acompanhamento assim custaria facilmente 250,00.</p>
                 <p class="price-anchor" style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-muted);">O valor normal do grupo seria de 97,00 por mês.</p>
@@ -94,7 +94,7 @@
         </section>
 
         <!-- 5. CTA FINAL -->
-        <section class="section text-center scroll-fade" style="padding-bottom: 3rem;">
+        <section class="section text-center scroll-fade hidden-until-video" style="padding-bottom: 3rem; display: none;">
             <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.8rem; color: var(--text-main);">Garanta sua vaga por apenas 14,90/mês</p>
             <a href="https://pay.cakto.com.br/9efyr44_864281" class="cta-button heartbeat-btn">Entrar no Grupo WhatsApp 📲</a>
             <div class="secure-checkout mt-2">
@@ -102,7 +102,7 @@
             </div>
         </section>
         
-        <footer class="text-center" style="margin-top: 1rem; color: #6A7F73; font-size: 1rem; padding-bottom: 2rem;">
+        <footer class="text-center hidden-until-video" style="margin-top: 1rem; color: #6A7F73; font-size: 1rem; padding-bottom: 2rem; display: none;">
             <p>Simples, seguro e discreto.</p>
         </footer>
     </div>
@@ -111,6 +111,8 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         var player;
+        var contentRevealed = false;
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
                 events: {
@@ -129,6 +131,9 @@
                     console.log("Autoplay do celular bloqueou, aguardando toque na tela.");
                 }
             }, 3000);
+
+            // Verifica a cada 1 segundo se o usuário já assistiu 3 minutos (180 segundos)
+            setInterval(checkVideoTime, 1000);
         }
 
         function onPlayerStateChange(event) {
@@ -159,6 +164,25 @@
             document.getElementById('pause-overlay').classList.add('hidden');
             var customThumb = document.getElementById('custom-thumb');
             if (customThumb) customThumb.style.display = 'none';
+        }
+
+        function checkVideoTime() {
+            if (contentRevealed) return;
+            
+            if (player && player.getCurrentTime) {
+                var time = player.getCurrentTime();
+                if (time >= 180) { // 3 minutos = 180 segundos
+                    revealContent();
+                }
+            }
+        }
+
+        function revealContent() {
+            contentRevealed = true;
+            var elements = document.querySelectorAll('.hidden-until-video');
+            elements.forEach(function(el) {
+                el.style.display = 'block';
+            });
         }
 
         // Script de Animação de Scroll (Elementos aparecem suavemente)
