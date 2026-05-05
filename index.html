@@ -132,7 +132,7 @@
                 }
             }, 3000);
 
-            // Verifica a cada 1 segundo se o usuário já assistiu 3 minutos (180 segundos)
+            // Verifica a cada 1 segundo se o usuário já assistiu 3 minutos e meio (210 segundos)
             setInterval(checkVideoTime, 1000);
         }
 
@@ -171,7 +171,7 @@
             
             if (player && player.getCurrentTime) {
                 var time = player.getCurrentTime();
-                if (time >= 180) { // 3 minutos = 180 segundos
+                if (time >= 210) { // 3 minutos e meio = 210 segundos
                     revealContent();
                 }
             }
